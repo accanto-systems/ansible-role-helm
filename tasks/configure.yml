@@ -1,0 +1,8 @@
+
+- name: Add Helm repositories
+  shell: helm repo add {{ item.name }} {{ item.url }}
+  loop: "{{ helm_repos | default([]) }}"
+
+- name: Update Helm repositories
+  shell: helm repo update
+  when: helm_repos|default([])|length>0 
