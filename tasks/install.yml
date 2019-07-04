@@ -9,8 +9,9 @@
   when: helm_result.stat.exists == True
   register: helm_version_command
   changed_when: false
+  failed_when: false
 
-- when: helm_result.stat.exists == False or helm_version not in helm_version_command.stdout 
+- when: helm_result.stat.exists == False or helm_version_command is undefined or helm_version not in helm_version_command.stdout 
   block:
     - name: Download Helm
       get_url: 
