@@ -31,11 +31,11 @@
         dest: /tmp/helm-{{ helm_version }}
 
     - name: Include Helm in /usr/local/bin/
-      file:
+      copy:
         src: /tmp/helm-{{ helm_version }}/{{ helm_platform }}/helm
         dest: "{{helm_install_dir}}/helm"
-        state: link
       become: yes
+      
   always:
     - name: Cleanup tmp files
       become: yes
