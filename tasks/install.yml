@@ -34,6 +34,7 @@
       copy:
         src: /tmp/helm-{{ helm_version }}/{{ helm_platform }}/helm
         dest: "{{helm_install_dir}}/helm"
+        mode: 0755
       become: yes
       
   always:
