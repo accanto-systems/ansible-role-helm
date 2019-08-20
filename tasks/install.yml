@@ -26,12 +26,13 @@
 
     - name: Unarchive Helm
       unarchive: 
-        remote_src: yes 
+        remote_src: yes
         src: /tmp/helm-{{ helm_version }}-{{ helm_platform }}.tar.gz
         dest: /tmp/helm-{{ helm_version }}
 
     - name: Include Helm in /usr/local/bin/
       copy:
+        remote_src: yes
         src: /tmp/helm-{{ helm_version }}/{{ helm_platform }}/helm
         dest: "{{helm_install_dir}}/helm"
         mode: 0755
