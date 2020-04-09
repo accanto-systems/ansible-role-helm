@@ -1,5 +1,7 @@
 - name: Check if Tiller service exists
-  shell: kubectl get pods -n kube-system | grep tiller
+  shell: source /etc/profile.d/apps-bin-path.sh && kubectl get pods -n kube-system | grep tiller
+  args:
+    executable: /bin/bash
   changed_when: false
   failed_when: false
   register: tiller_service
@@ -13,13 +15,18 @@
         dest: /tmp/
 
     - name: Create Tiller account
-      command: kubectl create -f /tmp/tiller-rbac.yml
+      shell: source /etc/profile.d/apps-bin-path.sh && kubectl create -f /tmp/tiller-rbac.yml
+      #command: kubectl create -f /tmp/tiller-rbac.yml
+      args:
+        executable: /bin/bash
  
     - name: Init Helm
       command: helm init --service-account tiller
 
     - name: Wait for Tiller to start
-      shell: kubectl get pods -n kube-system | grep tiller
+      shell: source /etc/profile.d/apps-bin-path.sh && kubectl get pods -n kube-system | grep tiller
+      args:
+        executable: /bin/bash
       register: tiller_status
       until: tiller_status.stdout.find("1/1") != -1
       retries: 50
